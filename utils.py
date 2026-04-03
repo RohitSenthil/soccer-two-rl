@@ -1,8 +1,10 @@
+from pprint import pprint
 from random import uniform as randfloat
 
 import gym
-from ray.rllib import MultiAgentEnv
+import numpy as np
 import soccer_twos
+from ray.rllib import MultiAgentEnv
 
 
 class RLLibWrapper(gym.core.Wrapper, MultiAgentEnv):
@@ -11,6 +13,27 @@ class RLLibWrapper(gym.core.Wrapper, MultiAgentEnv):
     """
 
     pass
+    def step(self, action):
+        obs, reward, done, info = self.env.step(action)
+        # pprint(info)
+        team_1_info = np.array([
+            np.concatenate((player["player_info"]["position"],player["player_info"]["velocity"],[(player["player_info"]["rotation_y"]+270)%360])) for team in info.values() for player in team.values()
+        ], dtype=np.float32).flatten()
+        team_1_info = np.concatenate((team_1_info,info[0][0]["ball_info"]["position"],info[0][0]["ball_info"]["velocity"] ))
+        team_2_info = np.array([
+            np.concatenate((player["player_info"]["position"]*-1,player["player_info"]["velocity"]*-1,[(player["player_info"]["rotation_y"]+90)%360])) for team in reversed(info.values()) for player in team.values()
+        ], dtype=np.float32).flatten()
+        team_2_info = np.concatenate((team_2_info,info[0][0]["ball_info"]["position"]*-1,info[0][0]["ball_info"]["velocity"] *-1))
+        # pprint(team_2_info.shape)
+        # pprint(team_2_info)
+        # pprint(info)
+        # pprint(team_2_info.dtype)
+        # pprint(info)
+        # pprint(len(obs))
+        # pprint(obs[0].dtype)
+        # print(obs.shape)
+        return obs, reward, done, info
+        
 
 
 def create_rllib_env(env_config: dict = {}):
