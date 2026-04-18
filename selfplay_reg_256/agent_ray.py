@@ -20,7 +20,7 @@ CHECKPOINT_PATH = os.path.join(
 )
 WEIGHT_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
-    "./ray_selfplay_weights2.pkl",
+    "./ray_selfplay_weights3.pkl",
 )
 POLICY_NAME = "default"  # this may be useful when training with selfplay
 

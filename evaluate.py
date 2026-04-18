@@ -96,6 +96,7 @@ def collect_episodes(
             if steps >= 1000:
                 episode_done = True
             elif max(done.values()):
+                print(reward)
                 obs = env.reset()
             # if max(done.values()):  # if any agent is done
             #     episode_done = True
