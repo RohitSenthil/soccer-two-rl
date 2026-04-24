@@ -15,7 +15,7 @@ from utils import create_rllib_env
 ALGORITHM = "PPO"
 CHECKPOINT_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
-    "./ray_results/PPO_selfplay_rec_expandedobs_fixed2_3/PPO_Soccer_44fe4_00000_0_2026-04-17_11-08-20/checkpoint_000954/checkpoint-954",
+    "./ray_results/PPO_selfplay_rec_expandedobs_fixed2_4/PPO_Soccer_fcce7_00000_0_2026-04-23_11-13-31/checkpoint_001503/checkpoint-1503",
 )
 POLICY_NAME = "main"
 ray.init(ignore_reinit_error=True)

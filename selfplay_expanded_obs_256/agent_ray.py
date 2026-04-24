@@ -35,7 +35,7 @@ class RayAgent(AgentInterface):
             env: the competition environment.
         """
         super().__init__()
-        ray.init(ignore_reinit_error=True)
+        # ray.init(ignore_reinit_error=True)
         with open(CHECKPOINT_PATH, "rb") as f:
             config = pickle.load(f)
 
@@ -47,12 +47,18 @@ class RayAgent(AgentInterface):
                         "fcnet_hiddens": [256, 256],
                         "fcnet_activation": "relu",
         }
-        temp_env = create_rllib_env(
-            {"variation": EnvType.multiagent_team, "expanded_obs":True}
-        )
-        obs_space = temp_env.observation_space
-        act_space = temp_env.action_space
-        temp_env.close()
+        # temp_env = create_rllib_env(
+        #     {"variation": EnvType.multiagent_team, "expanded_obs":True}
+        # )
+        # obs_space = temp_env.observation_space
+        # act_space = temp_env.action_space
+        # temp_env.close()
+        obs_space = gym.spaces.Box(
+                    0, 1, dtype=np.float32, shape=(696,)
+                )
+        act_space = gym.spaces.MultiDiscrete(
+                        np.repeat(3, 6)
+                    )
         config["multiagent"]["policies"]["default"] = (None, obs_space, act_space, {})
 
         tune.registry.register_env("DummyEnv", lambda *_: BaseEnv())

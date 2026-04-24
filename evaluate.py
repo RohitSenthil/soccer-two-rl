@@ -93,6 +93,7 @@ def collect_episodes(
             # logging
             blue_team_reward += reward[0] + reward[1]
             orange_team_reward += reward[2] + reward[3]
+            print(done)
             if steps >= 1000:
                 episode_done = True
             elif max(done.values()):
